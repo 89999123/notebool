@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 笔记罗列主页面 - 登录后首页面 | 风格匹配登录页 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_login"
+    android:padding="20dp">
+
+    <!-- ✅ 核心修改：标题行容器 - 实现标题居中、昵称+退出按钮居右 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- 占满左侧空白，让标题居中 -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <!-- 页面标题 - 与登录页样式一致（居中） -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="我的记事本"
+            android:textColor="#333333"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <!-- ✅ 右侧：用户昵称 + 退出登录按钮（居右） -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="20dp"
+            android:layout_weight="3"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <!-- 用户昵称 -->
+            <TextView
+                android:id="@+id/tv_user_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:text="用户昵称"
+                android:textColor="#333333"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <!-- ✅ 关键修改：退出登录按钮 缩小版【核心】 -->
+            <Button
+                android:id="@+id/btn_logout"
+                android:layout_width="wrap_content"
+                android:layout_height="28dp"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
+                android:backgroundTint="#FF5252"
+                android:text="退出登录"
+                android:textColor="#FFFFFF"
+                android:textSize="10sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- 顶部搜索栏 - 核心需求 | 圆角白色样式匹配登录页输入框（位置不变） -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#FFFFFF"
+        android:padding="10dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/et_note_search"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:hint="搜索笔记名称..."
+            android:textSize="18sp"
+            android:background="@null"
+            android:textColor="#333333"/>
+
+        <Button
+            android:id="@+id/btn_do_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="搜 索"
+            android:textSize="16sp"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="10dp"/>
+    </LinearLayout>
+
+    <!-- 功能按钮：创建笔记（核心操作）- 位置完全正常，在搜索栏下方 -->
+    <Button
+        android:id="@+id/btn_create_note"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="创 建 新 笔 记"
+        android:textSize="18sp"
+        android:backgroundTint="#2196F3"
+        android:textColor="#FFFFFF"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- 笔记列表展示区 - 占满剩余高度 | 模拟数据展示（位置不变） -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/ll_note_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
+            <!-- 笔记条目动态添加 -->
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+

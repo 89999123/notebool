@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 笔记编辑页面 - 文字记录+图片+视频+语音 | 风格匹配登录页 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg_login"
+    android:padding="20dp">
+
+    <!-- 笔记名称展示 -->
+    <TextView
+        android:id="@+id/tv_note_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:background="#FFFFFF"
+        android:padding="15dp"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- 核心文字编辑区 - 占满剩余高度，支持多行滚动 -->
+    <EditText
+        android:id="@+id/et_note_content"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="请输入笔记内容..."
+        android:textSize="18sp"
+        android:textColor="#333333"
+        android:background="#FFFFFF"
+        android:padding="15dp"
+        android:gravity="top"
+        android:layout_marginBottom="20dp"
+        android:scrollbars="vertical"/>
+
+    <!-- 附件预览区（图片/视频/语音）- 横向滚动 -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:id="@+id/ll_attachment"
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="5dp">
+            <!-- 附件动态添加 -->
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 功能按钮组 - 核心操作 | 配色匹配登录页按钮 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_add_img"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="图 片"
+            android:textSize="14sp"
+            android:backgroundTint="#9E9E9E"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+
+        <Button
+            android:id="@+id/btn_add_video"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="视 频"
+            android:textSize="14sp"
+            android:backgroundTint="#9E9E9E"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"/>
+
+        <Button
+            android:id="@+id/btn_add_voice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="语 音"
+            android:textSize="14sp"
+            android:backgroundTint="#9E9E9E"
+            android:textColor="#FFFFFF"
+            android:layout_marginLeft="8dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_save_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="保 存"
+            android:textSize="14sp"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:layout_marginRight="8dp"/>
+
+        <Button
+            android:id="@+id/btn_cancel_note"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="返 回"
+            android:textSize="14sp"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:layout_marginRight="8dp"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>
