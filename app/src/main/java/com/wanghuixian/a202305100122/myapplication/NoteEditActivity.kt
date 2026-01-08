@@ -173,6 +173,12 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
                 REQUEST_CODE_PERMISSION
             )
         }
+
+        // 补充：如果需要操作文件Uri，确保添加 FLAG_GRANT_READ_URI_PERMISSION
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            // 适配Android 10+的Uri权限
+            intent?.flags = intent?.flags ?: 0 or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -353,34 +359,59 @@ class NoteEditActivity : AppCompatActivity(), View.OnClickListener {
             when (requestCode) {
                 REQUEST_CODE_IMAGE -> {
                     // 处理图片选择/拍摄结果
-                    data?.data?.let { uri ->
-                        // 获取持久化URI权限
-                        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                        contentResolver.takePersistableUriPermission(uri, takeFlags)
-                        addAttachmentView("图片", uri.toString())
-                        showToast("图片添加成功")
-                    } ?: run {
-                        // 拍摄的图片（自己应用目录，直接用路径）
-                        if (currentPhotoPath.isNotEmpty()) {
-                            addAttachmentView("图片", currentPhotoPath)
-                            showToast("图片添加成功")
+                    try {
+                        val imageUri: Uri? = if (data?.data != null) {
+                            // 从相册选择的图片
+                            val selectedUri = data.data
+                            // 申请合法的持久化权限（仅读/写）
+                            selectedUri?.let { uri ->
+                                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                // 先校验 Flags 合法性，避免报错
+                                if (takeFlags and 0x3 == takeFlags) { // 0x3 是 READ(0x1) + WRITE(0x2) 的合法组合
+                                    contentResolver.takePersistableUriPermission(uri, takeFlags)
+                                }
+                            }
+                            selectedUri
+                        } else {
+                            // 相机拍摄的图片（本地文件）
+                            Uri.fromFile(File(currentPhotoPath))
                         }
+
+                        imageUri?.let {
+                            addAttachmentView("图片", it.toString())
+                            showToast("图片添加成功")
+                        } ?: showToast("图片Uri为空，添加失败")
+                    } catch (e: Exception) {
+                        showToast("图片处理失败：${e.message}")
+                        e.printStackTrace()
                     }
                 }
                 REQUEST_CODE_VIDEO -> {
                     // 处理视频选择/拍摄结果
-                    data?.data?.let { uri ->
-                        // 获取持久化URI权限
-                        val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-                        contentResolver.takePersistableUriPermission(uri, takeFlags)
-                        addAttachmentView("视频", uri.toString())
-                        showToast("视频添加成功")
-                    } ?: run {
-                        // 拍摄的视频（自己应用目录，直接用路径）
-                        if (currentVideoPath.isNotEmpty()) {
-                            addAttachmentView("视频", currentVideoPath)
-                            showToast("视频添加成功")
+                    try {
+                        val videoUri: Uri? = if (data?.data != null) {
+                            // 从相册选择的视频
+                            val selectedUri = data.data
+                            // 申请合法的持久化权限
+                            selectedUri?.let { uri ->
+                                val takeFlags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+                                if (takeFlags and 0x3 == takeFlags) {
+                                    contentResolver.takePersistableUriPermission(uri, takeFlags)
+                                }
+                            }
+                            selectedUri
+                        } else {
+                            // 相机拍摄的视频（本地文件）
+                            Uri.fromFile(File(currentVideoPath))
                         }
+
+                        videoUri?.let {
+                            addAttachmentView("视频", it.toString())
+                            showToast("视频添加成功")
+                        } ?: showToast("视频Uri为空，添加失败")
+                    } catch (e: Exception) {
+                        showToast("视频处理失败：${e.message}")
+                        e.printStackTrace()
                     }
                 }
             }
